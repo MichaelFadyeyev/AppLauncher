@@ -1,0 +1,10 @@
+﻿<Application x:Class="AppLauncher.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:AppLauncher"
+             xmlns:databindings="clr-namespace:AppLauncher.DataBindings"
+             StartupUri="Views/MainWindow.xaml">
+    <Application.Resources>
+        <databindings:ApplicationModelToViewModelConverter x:Key="ApplicationConverter"/>
+    </Application.Resources>
+</Application>
