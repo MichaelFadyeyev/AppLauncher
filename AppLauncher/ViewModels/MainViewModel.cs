@@ -43,7 +43,9 @@ namespace AppLauncher.ViewModels
             else
             {
                 Categories_VM = dc.StoredCategorys_VM;
-                Applications_VM = dc.StoredApplications_VM;
+                Applications_VM = new ObservableCollection<ApplicationViewModel>();//dc.StoredApplications_VM;
+                SelectedCategory = Categories_VM[0];
+                LoadApplications();
             }
         }
 
@@ -145,13 +147,11 @@ namespace AppLauncher.ViewModels
                         Category = SelectedCategory.Category
                     };
                     SelectedCategory.Applications.Add(application);
-                    //
-                    var apps = Applications_VM;
-                    var cats = Categories_VM;
-                    //
-                    LoadApplications();
+                    Categories_VM.Where(c => c.Name == SelectedCategory.Name).First().Applications.Add(application);
+                    
                     UpdateDataContainer();
                     dm.Save(dc);
+                    LoadApplications();
                     LoadCategories();
                 }
             }

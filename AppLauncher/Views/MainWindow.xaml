@@ -107,6 +107,44 @@
             <TextBox DockPanel.Dock="Bottom" Height="100" Margin="5"
                      Text="{Binding SelectedApplication.Path}"/>
             <Label DockPanel.Dock="Bottom" Content="Path to *.exe file:" VerticalAlignment="Bottom"/>
+            <Grid>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="45*"/>
+                    <ColumnDefinition Width="50*"/>
+                </Grid.ColumnDefinitions>
+                <!--<Grid.RowDefinitions>
+                    <RowDefinition Height="25"/>
+                    <RowDefinition Height="25"/>
+                    <RowDefinition Height="25"/>
+                    <RowDefinition Height="25"/>
+                    <RowDefinition Height="25"/>
+                    <RowDefinition Height="25"/>
+                </Grid.RowDefinitions>-->
+                <DockPanel Grid.Column="0">
+                    <!--<DockPanel.Resources>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="HorizontalAlignment" Value="Right"/>
+                        </Style>
+                    </DockPanel.Resources>-->
+                    <TextBlock Text="*.exe file name: "
+                               DockPanel.Dock="Top"/>
+                    <TextBlock Text="Running Process Id: "
+                               DockPanel.Dock="Top"/>
+                </DockPanel>
+                <DockPanel Grid.Column="1">
+                    <DockPanel.Resources>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="FontWeight" Value="Bold"/>
+                        </Style>
+                    </DockPanel.Resources>
+                    <TextBlock Text="{Binding SelectedApplication.Name}"
+                               DockPanel.Dock="Top"/>
+                    <TextBlock Text="{Binding SelectedApplication.ProcessId}"
+                               DockPanel.Dock="Top"/>
+                </DockPanel>
+
+            </Grid>
         </DockPanel>
     </Grid>
 </Window>
