@@ -56,11 +56,7 @@
                                     </TextBlock>
                                 </TextBlock.ToolTip>
                                 <TextBlock Text="{Binding Name}"/>
-                                <TextBlock Text="         "/>
-                                <TextBlock Text="{Binding Applications.Count, StringFormat=({0})}" 
-                                            DockPanel.Dock="Right"/>
                             </TextBlock>
-
                         </DockPanel>
                     </DataTemplate>
                 </ListBox.ItemTemplate>

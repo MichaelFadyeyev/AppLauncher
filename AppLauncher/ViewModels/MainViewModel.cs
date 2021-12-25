@@ -91,17 +91,31 @@ namespace AppLauncher.ViewModels
         private RelayCommand saveCategory;
         public RelayCommand SaveCategory => saveCategory ?? (saveCategory = new RelayCommand(obj =>
         {
-            dm.Save(dc);
+            if (SelectedCategory != null)
+            {
+                dm.Save(dc);
+                ShowMessage("Category saved.", 64);
+            }
+            else
+                ShowMessage("Select Category to save!", 48);
+
         }));
 
         private RelayCommand delCategory;
         public RelayCommand DelCategory => delCategory ?? (delCategory = new RelayCommand(obj =>
         {
-            Applications_VM.Clear();
-            Categories_VM.Remove(SelectedCategory);
-            dm.Save(dc);
-            if (Categories_VM.Count > 0)
-                SelectedCategory = Categories_VM[0];
+            if (SelectedCategory != null)
+            {
+                Applications_VM.Clear();
+                Categories_VM.Remove(SelectedCategory);
+                dm.Save(dc);
+                if (Categories_VM.Count > 0)
+                    SelectedCategory = Categories_VM[0];
+                ShowMessage("Category successfully deleted.", 64);
+            }
+            else
+                ShowMessage("Select category to delete!", 48);
+
         }));
 
         #endregion
@@ -158,7 +172,6 @@ namespace AppLauncher.ViewModels
             if (SelectedCategory!=null && SelectedApplication!=null)
             {
                 SelectedCategory.Applications.Remove(SelectedApplication.Application);
-                //Applications_VM.Remove(SelectedApplication);
                 LoadApplications();
                 dm.Save(dc);
                 LoadCategories();
