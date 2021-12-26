@@ -137,7 +137,7 @@ namespace AppLauncher.ViewModels
             if (SelectedCategory != null)
             {
                 string path = openFileDilog.OpenFileDialog();
-                if (path!=null)
+                if (path != null)
                 {
                     Application application = new Application()
                     {
@@ -146,14 +146,25 @@ namespace AppLauncher.ViewModels
                         ProcessId = default,
                         Category = SelectedCategory.Category
                     };
-                    SelectedCategory.Applications.Add(application);
-                    Categories_VM.Where(c => c.Name == SelectedCategory.Name).First().Applications.Add(application);
-                    
-                    UpdateDataContainer();
-                    dm.Save(dc);
-                    LoadApplications();
-                    LoadCategories();
+                    if (SelectedCategory.Applications.First(c => c.Path == path) == null)
+                    {
+                        SelectedCategory.Applications.Add(application);
+                        Categories_VM.Where(c => c.Name == SelectedCategory.Name).First().Applications.Add(application);
+
+                        UpdateDataContainer();
+                        dm.Save(dc);
+                        LoadApplications();
+                        LoadCategories();
+                        ShowMessage($"Application {application.Name} successfully added" +
+                            $"\nto category {SelectedCategory.Name}", 64);
+                    }
+                    else
+                        ShowMessage($"Category {SelectedCategory.Name} already contains" +
+                            $"\napplication {application.Name}!", 48);
                 }
+                else
+                    ShowMessage($"No applications were added to category" +
+                        $"\n {SelectedCategory.Name}", 64);
             }
             else
                 ShowMessage("Select Category to add application!", 48);

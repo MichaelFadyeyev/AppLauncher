@@ -107,12 +107,16 @@
             <TextBox DockPanel.Dock="Bottom" Height="100" Margin="5"
                      Text="{Binding SelectedApplication.Path}"/>
             <Label DockPanel.Dock="Bottom" Content="Path to *.exe file:" VerticalAlignment="Bottom"/>
-            <Grid>
+            <Grid Margin="5,0,5,0">
 
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="45*"/>
-                    <ColumnDefinition Width="50*"/>
+                    <ColumnDefinition Width="60*"/>
+                    <ColumnDefinition Width="40*"/>
                 </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="80*"/>
+                    <RowDefinition Height="20*"/>
+                </Grid.RowDefinitions>
                 <!--<Grid.RowDefinitions>
                     <RowDefinition Height="25"/>
                     <RowDefinition Height="25"/>
@@ -121,18 +125,12 @@
                     <RowDefinition Height="25"/>
                     <RowDefinition Height="25"/>
                 </Grid.RowDefinitions>-->
-                <DockPanel Grid.Column="0">
-                    <!--<DockPanel.Resources>
-                        <Style TargetType="TextBlock">
-                            <Setter Property="HorizontalAlignment" Value="Right"/>
-                        </Style>
-                    </DockPanel.Resources>-->
-                    <TextBlock Text="*.exe file name: "
+                <DockPanel Grid.Row="1" Grid.Column="0" VerticalAlignment="Bottom">
+                    <TextBlock Text="Application *.exe file name: "
                                DockPanel.Dock="Top"/>
-                    <TextBlock Text="Running Process Id: "
-                               DockPanel.Dock="Top"/>
+                    <TextBlock Text="Running Process Id: "/>
                 </DockPanel>
-                <DockPanel Grid.Column="1">
+                <DockPanel Grid.Row="1" Grid.Column="1" VerticalAlignment="Bottom">
                     <DockPanel.Resources>
                         <Style TargetType="TextBlock">
                             <Setter Property="FontWeight" Value="Bold"/>
@@ -140,8 +138,7 @@
                     </DockPanel.Resources>
                     <TextBlock Text="{Binding SelectedApplication.Name}"
                                DockPanel.Dock="Top"/>
-                    <TextBlock Text="{Binding SelectedApplication.ProcessId}"
-                               DockPanel.Dock="Top"/>
+                    <TextBlock Text="{Binding SelectedApplication.ProcessId}"/>
                 </DockPanel>
 
             </Grid>
