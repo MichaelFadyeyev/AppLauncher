@@ -36,7 +36,6 @@ namespace AppLauncher.ViewModels
                 }));
                 Applications_VM = new ObservableCollection<ApplicationViewModel>();
                 dc = new DataContainer();
-                //dc.StoredApplications_VM = Applications_VM;
                 dc.StoredCategorys_VM = Categories_VM;
                 dm.Save(dc);
             }
