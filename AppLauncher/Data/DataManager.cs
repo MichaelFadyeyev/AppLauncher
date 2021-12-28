@@ -19,7 +19,7 @@ namespace AppLauncher.Data
 
         public void Save(object obj)
         {
-            using (FileStream fs = new FileStream(_path, FileMode.Create))
+            using (FileStream fs = new FileStream(_path, FileMode.Create, FileAccess.Write))
             {
                 _formatter.Serialize(fs, obj);
             }
@@ -29,7 +29,7 @@ namespace AppLauncher.Data
         {
             if (File.Exists(_path))
             {
-                using (FileStream fs = new FileStream(_path, FileMode.Open))
+                using (FileStream fs = new FileStream(_path, FileMode.Open, FileAccess.Read))
                 {
                     return _formatter.Deserialize(fs) as DataContainer;
                 }

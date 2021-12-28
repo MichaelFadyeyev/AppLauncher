@@ -36,7 +36,7 @@ namespace AppLauncher.ViewModels
                 }));
                 Applications_VM = new ObservableCollection<ApplicationViewModel>();
                 dc = new DataContainer();
-                dc.StoredApplications_VM = Applications_VM;
+                //dc.StoredApplications_VM = Applications_VM;
                 dc.StoredCategorys_VM = Categories_VM;
                 dm.Save(dc);
             }
@@ -146,15 +146,14 @@ namespace AppLauncher.ViewModels
                         ProcessId = default,
                         Category = SelectedCategory.Category
                     };
-                    if (SelectedCategory.Applications.First(c => c.Path == path) == null)
-                    {
-                        SelectedCategory.Applications.Add(application);
-                        Categories_VM.Where(c => c.Name == SelectedCategory.Name).First().Applications.Add(application);
 
-                        UpdateDataContainer();
-                        dm.Save(dc);
-                        LoadApplications();
-                        LoadCategories();
+                    if (SelectedCategory.Applications.Count == 0 ||
+                    SelectedCategory.Applications.FirstOrDefault(c => c.Path == path) == null)
+                    {
+                        _ = SelectedCategory.Applications.Add(application);
+                        
+                        UpdateAndSave();
+
                         ShowMessage($"Application {application.Name} successfully added" +
                             $"\nto category {SelectedCategory.Name}", 64);
                     }
@@ -171,21 +170,21 @@ namespace AppLauncher.ViewModels
             
         }));
 
-        private void UpdateDataContainer()
+        private void UpdateAndSave()
         {
-            dc.StoredCategorys_VM = Categories_VM;
-            dc.StoredApplications_VM = Applications_VM;
+            dm.Save(dc);
+            LoadApplications();
         }
 
         private RelayCommand delApplication;
         public RelayCommand DelApplication => delApplication ?? (delApplication = new RelayCommand(obj =>
         {
-            if (SelectedCategory!=null && SelectedApplication!=null)
+            if (SelectedCategory != null && SelectedApplication != null)
             {
-                SelectedCategory.Applications.Remove(SelectedApplication.Application);
-                LoadApplications();
-                dm.Save(dc);
-                LoadCategories();
+                _ = SelectedCategory.Applications.Remove(SelectedApplication.Application);
+                UpdateAndSave();
+                ShowMessage($"Application was successfully removed" +
+                    $"\nfrom category {SelectedCategory.Name}", 64);
             }
 
         }));
