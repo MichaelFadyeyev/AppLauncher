@@ -12,6 +12,5 @@ namespace AppLauncher.Data
     public class DataContainer
     {
         public ObservableCollection<CategoryViewModel> StoredCategorys_VM { set; get; }
-        //public ObservableCollection<ApplicationViewModel> StoredApplications_VM { set; get; }
     }
 }

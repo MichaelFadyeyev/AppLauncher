@@ -19,9 +19,12 @@ namespace AppLauncher.ViewModels
     {
         DataManager dm = new DataManager();
         DataContainer dc;
+
         public OpenFileDialogService openFileDilog = new OpenFileDialogService();
         public ObservableCollection<CategoryViewModel> Categories_VM { get; set; }
         public ObservableCollection<ApplicationViewModel> Applications_VM { get; set; }
+
+        TaskCompletionSource<bool> closeEventHandled = new TaskCompletionSource<bool>();
 
         public MainViewModel()
         {
@@ -49,11 +52,6 @@ namespace AppLauncher.ViewModels
         }
 
         #region Loaders
-        private void LoadCategories()
-        {            
-            dc = dm.Load() as DataContainer;
-            Categories_VM = dc.StoredCategorys_VM;
-        }
 
         private void LoadApplications()
         {
@@ -66,8 +64,6 @@ namespace AppLauncher.ViewModels
         #endregion
         
         #region Categories
-
-        /// <summary>Categories</summary>
 
         private CategoryViewModel selectedCategory;
         public CategoryViewModel SelectedCategory
@@ -121,7 +117,7 @@ namespace AppLauncher.ViewModels
 
         #endregion
 
-        #region Application
+        #region Applications
 
         private ApplicationViewModel selectedApplication;
         public ApplicationViewModel SelectedApplication
@@ -140,6 +136,7 @@ namespace AppLauncher.ViewModels
                 {
                     Application application = new Application()
                     {
+                        Title = "New Application",
                         Name = Path.GetFileName(path),
                         Path = path,
                         ProcessId = default,
@@ -201,7 +198,12 @@ namespace AppLauncher.ViewModels
         private RelayCommand startApplication;
 
         public RelayCommand StartApplication => startApplication ?? (startApplication = new RelayCommand(obj =>
-        {          
+        {
+            ControlApplication();
+        }));
+
+        public async void ControlApplication()
+        {
             string nameWithoutExtension = Path.GetFileNameWithoutExtension(SelectedApplication.Path);
             Process[] allProcesses = Process.GetProcesses();
             foreach (var p in allProcesses)
@@ -214,15 +216,33 @@ namespace AppLauncher.ViewModels
             }
             Process appProcess = new Process();
             appProcess.StartInfo = new ProcessStartInfo(SelectedApplication.Path);
+            appProcess.EnableRaisingEvents = true;
+            appProcess.Exited += Application_Exitted;
             appProcess.Start();
             SelectedApplication.ProcessId = appProcess.Id;
-        }));
+            await Task.WhenAny(closeEventHandled.Task);
+        }
 
-        private void ShowMessage(string message, int imageIndex)
+        private void Application_Exitted(object sender, EventArgs e)
         {
-            System.Windows.MessageBox.Show(message, "Info", 
-                System.Windows.MessageBoxButton.OK, 
-                (System.Windows.MessageBoxImage)imageIndex);
+            string applicationName = "";
+            Process appProcess = sender as Process;
+            if (SelectedApplication.ProcessId== appProcess.Id)
+                SelectedApplication.ProcessId = 0;
+            else
+            {
+                foreach (var application in Categories_VM
+                    .SelectMany(category => category.Applications
+                    .Where(application => application.ProcessId == appProcess.Id)))
+                {
+                    application.ProcessId = 0;
+                    applicationName = application.Name;
+                    break;
+                }
+            }            
+            ShowMessage($"Application {applicationName} seccessfully closed!", 64);
+            closeEventHandled = new TaskCompletionSource<bool>();
+            closeEventHandled.SetResult(true);
         }
 
         private RelayCommand stopApplication;
@@ -233,10 +253,21 @@ namespace AppLauncher.ViewModels
             {
                 appProcess.CloseMainWindow();
                 appProcess.Close();
-                ShowMessage("Application closed seccessfully!", 64);
             }
         }));
+
         #endregion
+
+        #region Messaging
+        private void ShowMessage(string message, int imageIndex)
+        {
+            System.Windows.MessageBox.Show(message, "Info",
+                System.Windows.MessageBoxButton.OK,
+                (System.Windows.MessageBoxImage)imageIndex);
+        }
+        #endregion
+
+
 
     }
 }

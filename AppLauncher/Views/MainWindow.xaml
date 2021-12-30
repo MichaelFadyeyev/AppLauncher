@@ -7,7 +7,8 @@
         xmlns:viewmodels="clr-namespace:AppLauncher.ViewModels"
         d:DataContext="{d:DesignInstance Type=viewmodels:MainViewModel}"
         mc:Ignorable="d"
-        Title="Application Launcher" Height="450" Width="800">
+        Title="Application Launcher" Height="450" Width="777"
+        MinHeight="450" MinWidth="777" Icon="../Images/favicon.ico">
     <Window.Resources>
         <!--<Style>
             
@@ -66,15 +67,17 @@
             <Label DockPanel.Dock="Top" Content="Application List:"/>
             <StackPanel Height="25" Margin="0,5,0,5" DockPanel.Dock="Bottom" 
                         Orientation="Horizontal" HorizontalAlignment="Center">
-                <Button Content="Add" Width="100" Margin="0,0,3,0"
+                <Button Content="Add" Width="75"
                         Command="{Binding AddApplication}"/>
-                <Button Content="Remove" Width="100" Margin="3,0,0,0"
+                <Button Content="Save" Width="75" Margin="6,0,6,0"
+                        Command="{Binding SaveApplication}"/>
+                <Button Content="Remove" Width="75"
                         Command="{Binding DelApplication}"/>
             </StackPanel>
             <TextBox DockPanel.Dock="Bottom" Height="30" Margin="5"
                      x:Name="ApplicationList"
                      DataContext="{Binding SelectedApplication}"
-                     Text="{Binding Name}" Focusable="False"/>
+                     Text="{Binding Title}"/>
             <Label DockPanel.Dock="Bottom" Content="New Application:" VerticalAlignment="Bottom"/>
             <ListBox DockPanel.Dock="Top" Margin="5"
                      x:Name="ApplicationsList"
@@ -87,7 +90,7 @@
                                 <TextBlock.ToolTip>
                                     <TextBlock Text="{Binding Path}"/>
                                 </TextBlock.ToolTip>
-                                <TextBlock Text="{Binding Name}"/>
+                                <TextBlock Text="{Binding Title}"/>
                             </TextBlock>
                         </WrapPanel>
                     </DataTemplate>
@@ -104,7 +107,7 @@
                 <Button Content="Stop" Width="100" Margin="3,0,0,0"
                         Command="{Binding StopApplication}"/>
             </StackPanel>
-            <TextBox DockPanel.Dock="Bottom" Height="100" Margin="5"
+            <TextBox DockPanel.Dock="Bottom" Height="60" Margin="5" Focusable="False" TextWrapping="Wrap"
                      Text="{Binding SelectedApplication.Path}"/>
             <Label DockPanel.Dock="Bottom" Content="Path to *.exe file:" VerticalAlignment="Bottom"/>
             <Grid Margin="5,0,5,0">
@@ -117,14 +120,6 @@
                     <RowDefinition Height="80*"/>
                     <RowDefinition Height="20*"/>
                 </Grid.RowDefinitions>
-                <!--<Grid.RowDefinitions>
-                    <RowDefinition Height="25"/>
-                    <RowDefinition Height="25"/>
-                    <RowDefinition Height="25"/>
-                    <RowDefinition Height="25"/>
-                    <RowDefinition Height="25"/>
-                    <RowDefinition Height="25"/>
-                </Grid.RowDefinitions>-->
                 <DockPanel Grid.Row="1" Grid.Column="0" VerticalAlignment="Bottom">
                     <TextBlock Text="Application *.exe file name: "
                                DockPanel.Dock="Top"/>
@@ -140,6 +135,8 @@
                                DockPanel.Dock="Top"/>
                     <TextBlock Text="{Binding SelectedApplication.ProcessId}"/>
                 </DockPanel>
+                <Image Grid.ColumnSpan="2" Height="100" Width="100"
+                       Source="../Images/favicon.ico"/>
 
             </Grid>
         </DockPanel>

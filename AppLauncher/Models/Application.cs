@@ -9,6 +9,7 @@ namespace AppLauncher.Models
     [Serializable]
     public class Application
     {
+        public string Title { get; set; }
         public string Name { get; set; }
         public string Path { get; set; }
         public int ProcessId { get; set; }

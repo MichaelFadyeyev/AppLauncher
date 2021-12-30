@@ -22,6 +22,12 @@ namespace AppLauncher.ViewModels
             set { _application = value; OnPropertyChanged(nameof(Application)); }
         }
 
+        public string Title
+        {
+            get { return _application.Title; }
+            set { _application.Title = value; OnPropertyChanged(nameof(Title)); }
+        }
+
         public string Name
         {
             get { return _application.Name; }
