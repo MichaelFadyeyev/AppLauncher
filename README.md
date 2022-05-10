@@ -3,7 +3,6 @@ AppLauncher is an application for to collect applications installed on PC start 
 
 Applauncher used WPF and MVVM pattern.
 
-Some specific properties:
+Some specifics:
 1. Only one instance of each application process can be launched in one time.
 2. Properties of launched process are ddisplaying in Application Parameters section.
-3. 
