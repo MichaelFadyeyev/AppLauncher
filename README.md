@@ -1,5 +1,6 @@
 # AppLauncher
-AppLauncher is an application for to collect applications installed on PC start and stop this applications.
+AppLauncher was create in course of studying System Programming to practise work with threads and process.
+Application purpose is to collect applications installed on PC for start and stop them.
 
 Applauncher used WPF and MVVM pattern.
 
